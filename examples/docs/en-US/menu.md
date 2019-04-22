@@ -1,56 +1,3 @@
-<style>
-  .demo-box.demo-menu {
-    .el-menu-demo {
-      padding-left: 55px;
-    }
-    .el-menu-vertical-demo:not(.el-menu--collapse) {
-      width: 240px;
-      min-height: 400px;
-    }
-    .line {
-      height: 1px;
-      background-color: #e0e6ed;
-      margin: 35px -24px;
-    }
-    h5 {
-      font-size: 14px;
-      color: #8492a6;
-      margin-top: 10px;
-    }
-    .tac {
-      text-align: center;
-
-      .el-menu-vertical-demo {
-        display: inline-block;
-        text-align: left;
-      }
-    }
-  }
-</style>
-
-<script>
-  export default {
-    data() {
-      return {
-        activeIndex: '1',
-        activeIndex2: '1',
-        isCollapse: true
-      };
-    },
-    methods: {
-      handleOpen(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleClose(key, keyPath) {
-        console.log(key, keyPath);
-      },
-      handleSelect(key, keyPath) {
-        console.log(key, keyPath);
-      }
-    }
-  }
-</script>
-
 ## NavMenu
 
 Menu that provides navigation for your website.
@@ -304,14 +251,14 @@ Vertical NavMenu could be collapsed.
 | text-color  | text color of Menu (hex format) | string |   —   | #303133 |
 | active-text-color  | text color of currently active menu item (hex format) | string |   —   | #409EFF |
 | default-active | index of currently active menu | string    | — | — |
-| default-openeds | array that contains keys of currently active sub-menus  | Array    | — | — |
+| default-openeds | array that contains indexes of currently active sub-menus  | Array    | — | — |
 | unique-opened  |  whether only one sub-menu can be active  | boolean   | — | false   |
-| menu-trigger | how sub-menus are triggered, only works when `mode` is 'horizontal' | string    | — | hover |
+| menu-trigger | how sub-menus are triggered, only works when `mode` is 'horizontal' | string    | hover / click | hover |
 | router  | whether `vue-router` mode is activated. If true, index will be used as 'path' to activate the route action | boolean   | — | false   |
 | collapse-transition  | whether to enable the collapse transition | boolean   | — | true   |
 
 ### Menu Methods
-| Event Name | Description | Parameters |
+| Methods Name | Description | Parameters |
 |---------- |-------- |---------- |
 | open  | open a specific sub-menu | index: index of the sub-menu to open |
 | close  | close a specific sub-menu | index: index of the sub-menu to close |
@@ -336,11 +283,12 @@ Vertical NavMenu could be collapsed.
 | show-timeout | timeout before showing a sub-menu | number | — | 300 |
 | hide-timeout | timeout before hiding a sub-menu | number | — | 300 |
 | disabled | whether the sub-menu is disabled | boolean | — | false |
+| popper-append-to-body | whether to append the popup menu to body. If the positioning of the menu is wrong, you can try setting this prop | boolean | - | level one Submenu: true / other Submenus: false |
 
 ### Menu-Item Attribute
 | Attribute      | Description          | Type      | Accepted Values       | Default  |
 |---------- |-------- |---------- |-------------  |-------- |
-| index     | unique identification   | string  | — | — |
+| index     | unique identification   | string/null  | — | null |
 | route     | Vue Router object   | object | — | — |
 | disabled | whether disabled | boolean | — | false |
 

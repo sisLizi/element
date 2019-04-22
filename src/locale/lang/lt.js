@@ -8,7 +8,7 @@ export default {
       now: 'Dabar',
       today: 'Šiandien',
       cancel: 'Atšaukti',
-      clear: 'Vakyti',
+      clear: 'Valyti',
       confirm: 'OK',
       selectDate: 'Pasirink datą',
       selectTime: 'Pasirink laiką',
@@ -104,6 +104,9 @@ export default {
       filterPlaceholder: 'Įvesk raktažodį',
       noCheckedFormat: 'Viso: {total}',
       hasCheckedFormat: 'Pažymėta {checked} iš {total}'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

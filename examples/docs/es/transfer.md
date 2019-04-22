@@ -1,75 +1,3 @@
-<style>
-  .demo-transfer {
-    .transfer-footer {
-      margin-left: 15px;
-      padding: 6px 5px;
-    }
-  }
-</style>
-
-<script>
-  export default {
-    data() {
-      const generateData = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            key: i,
-            label: `Option ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-      const generateData2 = _ => {
-        const data = [];
-        const states = ['California', 'Illinois', 'Maryland', 'Texas', 'Florida', 'Colorado', 'Connecticut '];
-        const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT'];
-        states.forEach((city, index) => {
-          data.push({
-            label: city,
-            key: index,
-            initial: initials[index]
-          });
-        });
-        return data;
-      };
-      const generateData3 = _ => {
-        const data = [];
-        for (let i = 1; i <= 15; i++) {
-          data.push({
-            value: i,
-            desc: `Option ${ i }`,
-            disabled: i % 4 === 0
-          });
-        }
-        return data;
-      };
-      return {
-        data: generateData(),
-        data2: generateData2(),
-        data3: generateData3(),
-        value1: [1, 4],
-        value2: [],
-        value3: [1],
-        value4: [],
-        filterMethod(query, item) {
-          return item.initial.toLowerCase().indexOf(query.toLowerCase()) > -1;
-        },
-        renderFunc(h, option) {
-          return <span>{ option.key } - { option.label }</span>;
-        }
-      };
-    },
-    
-    methods: {
-      handleChange(value, direction, movedKeys) {
-        console.log(value, direction, movedKeys);
-      }
-    }
-  };
-</script>
-
 ## Transfer
 
 ### Uso básico
@@ -77,7 +5,7 @@
 ```html
 <template>
   <el-transfer
-    v-model="value1"
+    v-model="value"
     :data="data">
   </el-transfer>
 </template>
@@ -98,7 +26,7 @@
       };
       return {
         data: generateData(),
-        value1: [1, 4]
+        value: [1, 4]
       };
     }
   };
@@ -110,22 +38,22 @@
 
 Puede buscar y filtrar los items.
 
-::demo Ponga el atributo `filterable` a true para permitir el filtrado.Por defecto si el `label` del item contiene el término buscado será incluido en el resultado. También puede implementar su propio método de filtrado con el atributo `filter-method`, que recibe un método y le pasa la búsqueda y cada item. Los items para los que devuelva true serán incluidos en el resultado de la búsqueda.
+:::demo Ponga el atributo `filterable` a true para permitir el filtrado.Por defecto si el `label` del item contiene el término buscado será incluido en el resultado. También puede implementar su propio método de filtrado con el atributo `filter-method`, que recibe un método y le pasa la búsqueda y cada item. Los items para los que devuelva true serán incluidos en el resultado de la búsqueda.
 ```html
 <template>
   <el-transfer
     filterable
     :filter-method="filterMethod"
     filter-placeholder="State Abbreviations"
-    v-model="value2"
-    :data="data2">
+    v-model="value"
+    :data="data">
   </el-transfer>
 </template>
 
 <script>
   export default {
     data() {
-      const generateData2 = _ => {
+      const generateData = _ => {
         const data = [];
         const states = ['California', 'Illinois', 'Maryland', 'Texas', 'Florida', 'Colorado', 'Connecticut '];
         const initials = ['CA', 'IL', 'MD', 'TX', 'FL', 'CO', 'CT'];
@@ -139,8 +67,8 @@ Puede buscar y filtrar los items.
         return data;
       };
       return {
-        data2: generateData2(),
-        value2: [],
+        data: generateData(),
+        value: [],
         filterMethod(query, item) {
           return item.initial.toLowerCase().indexOf(query.toLowerCase()) > -1;
         }
@@ -155,26 +83,51 @@ Puede buscar y filtrar los items.
 
 Puede personalizar los títulos, botones, la función de renderizado de los items, el texto de status de la cabecera y el contenido del pie.
 
-:::demo Use `titles`, `button-texts`, `render-content` y `format` respectivamente para personalizar los títulos de las listas, el texto de los botones, la función de renderizado para los items y el texto de la cabecera que muestra el estado de los items. Para el pie de la lista hay dos slots: `left-footer` y `right-footer`. Además, si quiere algunos items marcados inicialmente puede usar `left-default-checked` y `right-default-checked`. Finalmente este ejemplo muestra el evento `change`. Tenga en cuenta que este ejemplo no se puede ejecutar en jsfiddle porque no soporta sintaxis JSX. En un proyecto real `render-content` funcionará si las dependencias son configuradas correctamente.
+:::demo Use `titles`, `button-texts`, `render-content` y `format` respectivamente para personalizar los títulos de las listas, el texto de los botones, la función de renderizado para los items y el texto de la cabecera que muestra el estado de los items. Plus, you can also use scoped slot to customize data items. Para el pie de la lista hay dos slots: `left-footer` y `right-footer`. Además, si quiere algunos items marcados inicialmente puede usar `left-default-checked` y `right-default-checked`. Finalmente este ejemplo muestra el evento `change`. Tenga en cuenta que este ejemplo no se puede ejecutar en jsfiddle porque no soporta sintaxis JSX. En un proyecto real `render-content` funcionará si las dependencias son configuradas correctamente.
 ```html
 <template>
-  <el-transfer
-    v-model="value3"
-    filterable
-    :left-default-checked="[2, 3]"
-    :right-default-checked="[1]"
-    :render-content="renderFunc"
-    :titles="['Source', 'Target']"
-    :button-texts="['To left', 'To right']"
-    :format="{
-      noChecked: '${total}',
-      hasChecked: '${checked}/${total}'
-    }"
-    @change="handleChange"
-    :data="data">
-    <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
-    <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
-  </el-transfer>
+  <p style="text-align: center; margin: 0 0 20px">Customize data items using render-content</p>
+  <div style="text-align: center">
+    <el-transfer
+      style="text-align: left; display: inline-block"
+      v-model="value"
+      filterable
+      :left-default-checked="[2, 3]"
+      :right-default-checked="[1]"
+      :render-content="renderFunc"
+      :titles="['Source', 'Target']"
+      :button-texts="['To left', 'To right']"
+      :format="{
+        noChecked: '${total}',
+        hasChecked: '${checked}/${total}'
+      }"
+      @change="handleChange"
+      :data="data">
+      <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
+      <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
+    </el-transfer>
+  </div>
+  <p style="text-align: center; margin: 50px 0 20px">Customize data items using scoped slot</p>
+  <div style="text-align: center">
+    <el-transfer
+      style="text-align: left; display: inline-block"
+      v-model="value4"
+      filterable
+      :left-default-checked="[2, 3]"
+      :right-default-checked="[1]"
+      :titles="['Source', 'Target']"
+      :button-texts="['To left', 'To right']"
+      :format="{
+        noChecked: '${total}',
+        hasChecked: '${checked}/${total}'
+      }"
+      @change="handleChange"
+      :data="data">
+      <span slot-scope="{ option }">{{ option.key }} - {{ option.label }}</span>
+      <el-button class="transfer-footer" slot="left-footer" size="small">Operation</el-button>
+      <el-button class="transfer-footer" slot="right-footer" size="small">Operation</el-button>
+    </el-transfer>
+  </div>
 </template>
 
 <style>
@@ -200,7 +153,8 @@ Puede personalizar los títulos, botones, la función de renderizado de los item
       };
       return {
         data: generateData(),
-        value3: [1],
+        value: [1],
+        value4: [1],
         renderFunc(h, option) {
           return <span>{ option.key } - { option.label }</span>;
         }
@@ -225,19 +179,19 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
 ```html
 <template>
   <el-transfer
-    v-model="value4"
+    v-model="value"
     :props="{
       key: 'value',
       label: 'desc'
     }"
-    :data="data3">
+    :data="data">
   </el-transfer>
 </template>
 
 <script>
   export default {
     data() {
-      const generateData3 = _ => {
+      const generateData = _ => {
         const data = [];
         for (let i = 1; i <= 15; i++) {
           data.push({
@@ -249,8 +203,8 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
         return data;
       };
       return {
-        data3: generateData3(),
-        value4: []
+        data: generateData(),
+        value: []
       };
     }
   };
@@ -261,6 +215,7 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
 ### Atributos
 | Atriburo              | Descripcion                              | Tipo                            | Valores aceptados | Por defecto                              |
 | --------------------- | ---------------------------------------- | ------------------------------- | ----------------- | ---------------------------------------- |
+| value / v-model        | valor enlazado                           | array                           | —                 | —                                        |
 | data                  | Origen de datos                          | array[{ key, label, disabled }] | —                 | [ ]                                      |
 | filterable            | Si se puede filtrar                      | boolean                         | —                 | false                                    |
 | filter-placeholder    | Placeholder para el input del filtro     | string                          | —                 | Enter keyword                            |
@@ -279,6 +234,11 @@ Por defecto Transfer busca los atributos `key`, `label`, y `disabled` en cada el
 | ------------ | ---------------------------------------- |
 | left-footer  | Contenido del footer de la lista de la izquierda |
 | right-footer | Contenido del footer de la lista de la derecha |
+
+### Scoped Slot
+| Name | Description |
+|------|--------|
+| — | Contenido personalizado para los datos de los items. El parametro del scope es { option } |
 
 ### Methods
 | Method | Description | Parameters |

@@ -20,7 +20,7 @@ export default {
       nextYear: 'Anno successivo',
       prevMonth: 'Mese precedente',
       nextMonth: 'Mese successivo',
-      year: 'Anno',
+      year: '',
       month1: 'Gennaio',
       month2: 'Febbraio',
       month3: 'Marzo',
@@ -103,6 +103,9 @@ export default {
       filterPlaceholder: 'Inserisci filtro',
       noCheckedFormat: '{total} elementi',
       hasCheckedFormat: '{checked}/{total} selezionati'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };

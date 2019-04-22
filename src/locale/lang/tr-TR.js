@@ -71,7 +71,7 @@ export default {
     },
     pagination: {
       goto: 'Git',
-      pagesize: '/page',
+      pagesize: '/sayfa',
       total: 'Toplam {total}',
       pageClassifier: ''
     },
@@ -104,6 +104,9 @@ export default {
       filterPlaceholder: 'Anahtar kelimeleri gir',
       noCheckedFormat: '{total} adet',
       hasCheckedFormat: '{checked}/{total} seçildi'
+    },
+    image: {
+      error: 'FAILED' // to be translated
     }
   }
 };
